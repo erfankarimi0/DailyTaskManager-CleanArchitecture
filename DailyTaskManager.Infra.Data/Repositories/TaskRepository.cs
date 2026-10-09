@@ -1,5 +1,8 @@
-﻿using DailyTaskManager.Domain.Interfaces;
+﻿
+using DailyTaskManager.Domain.Interfaces;
 using DailyTaskManager.Infra.Data.Context;
+using Microsoft.EntityFrameworkCore;
+using DomainTask = DailyTaskManager.Domain.Entities.Task;
 
 namespace DailyTaskManager.Infra.Data.Repositories
 {
@@ -11,7 +14,8 @@ namespace DailyTaskManager.Infra.Data.Repositories
         {
             _context = context;
         }
-        public async System.Threading.Tasks.Task AddAsync(Domain.Entities.Task task)
+
+        public async System.Threading.Tasks.Task AddAsync(DomainTask task)
         {
             var infraTask = new Models.Task
             {
@@ -23,28 +27,38 @@ namespace DailyTaskManager.Infra.Data.Repositories
             };
 
             await _context.Tasks.AddAsync(infraTask);
-
             await _context.SaveChangesAsync();
 
             task.Id = infraTask.Id;
         }
 
-        public System.Threading.Tasks.Task DeleteAsync(Domain.Entities.Task task)
+        public async System.Threading.Tasks.Task<List<DomainTask>> GetAllAsync()
+        {
+            var tasks = await _context.Tasks.ToListAsync();
+
+            return tasks.Select(t => new DomainTask(
+                t.Id,
+                t.Title,
+                t.Description,
+                t.IsCompleted != 0,
+                (DailyTaskManager.Domain.Enums.TaskPriority)t.Priority,
+                t.DueDate,
+                t.CreateDate,
+                t.UpdateDate
+            )).ToList();
+        }
+
+        public System.Threading.Tasks.Task<DomainTask?> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Domain.Entities.Task>> GetAllAsync()
+        public System.Threading.Tasks.Task UpdateAsync(DomainTask task)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Domain.Entities.Task?> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public System.Threading.Tasks.Task UpdateAsync(Domain.Entities.Task task)
+        public System.Threading.Tasks.Task DeleteAsync(DomainTask task)
         {
             throw new NotImplementedException();
         }

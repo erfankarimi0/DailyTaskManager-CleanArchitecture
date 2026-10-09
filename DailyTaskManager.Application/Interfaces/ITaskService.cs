@@ -10,5 +10,6 @@ namespace DailyTaskManager.Application.Interfaces
     public interface ITaskService
     {
         Task<CreateTaskResultDto> CreateAsync(CreateTaskDto dto);
+        Task<List<GetAllTaskResultDto>> GetAllAsync();
     }
 }

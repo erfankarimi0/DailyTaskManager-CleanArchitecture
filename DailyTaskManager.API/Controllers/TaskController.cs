@@ -22,5 +22,15 @@ namespace DailyTaskManager.API.Controllers
 
             return Ok(result);
         }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var tasks = await _taskService.GetAllAsync();
+
+            return Ok(tasks);
+        }
     }
 }

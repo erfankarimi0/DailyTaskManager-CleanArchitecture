@@ -1,17 +1,33 @@
 ﻿using DailyTaskManager.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DailyTaskManager.Domain.Entities
 {
     public class Task
     {
+        public Task(
+    int id,
+    string title,
+    string? description,
+    bool isCompleted,
+    TaskPriority priority,
+    DateTime? dueDate,
+    DateTime createDate,
+    DateTime? updateDate)
+        {
+            Id = id;
+            Title = title;
+            Description = description;
+            IsCompleted = isCompleted;
+            Priority = priority;
+            DueDate = dueDate;
+            CreateDate = createDate;
+            UpdateDate = updateDate;
+        }
+
+
         public int Id { get; set; }
 
-        public required string Title { get; set; }
+        public string Title { get; set; }
 
         public string? Description { get; set; }
 
