@@ -45,5 +45,20 @@ namespace DailyTaskManager.API.Controllers
             }
             return NotFound();
         }
+
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, UpdateTaskDto dto)
+        {
+            var result = await _taskService.UpdateAsync(id, dto);
+
+            if (result == null)
+            {
+                return NotFound("تسک پیدا نشد یا تغییری برای اعمال وجود ندارد.");
+            }
+
+            return Ok(result);
+        }
     }
 }

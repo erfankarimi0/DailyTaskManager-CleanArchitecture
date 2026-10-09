@@ -53,6 +53,11 @@ namespace DailyTaskManager.Domain.Entities
             UpdateDate = DateTime.UtcNow;
         }
 
+        public void MarkUpdated()
+        {
+            UpdateDate = DateTime.UtcNow;
+        }
+
     }
 
 }

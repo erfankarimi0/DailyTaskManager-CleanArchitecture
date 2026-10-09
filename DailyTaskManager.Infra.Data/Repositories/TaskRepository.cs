@@ -70,9 +70,24 @@ namespace DailyTaskManager.Infra.Data.Repositories
             );
         }
 
-        public System.Threading.Tasks.Task UpdateAsync(DomainTask task)
+
+        public async System.Threading.Tasks.Task UpdateAsync(DomainTask task)
         {
-            throw new NotImplementedException();
+            var infraTask = await _context.Tasks.FirstOrDefaultAsync(t => t.Id == task.Id);
+
+            if (infraTask == null)
+            {
+                throw new InvalidOperationException($"Task with ID {task.Id} was not found.");
+            }
+
+            infraTask.Title = task.Title;
+            infraTask.Description = task.Description;
+            infraTask.IsCompleted = task.IsCompleted ? (sbyte)1 : (sbyte)0;
+            infraTask.Priority = (int)task.Priority;
+            infraTask.DueDate = task.DueDate;
+            infraTask.UpdateDate = task.UpdateDate;
+
+            await _context.SaveChangesAsync();
         }
 
         public System.Threading.Tasks.Task DeleteAsync(DomainTask task)

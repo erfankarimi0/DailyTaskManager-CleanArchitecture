@@ -72,5 +72,91 @@ namespace DailyTaskManager.Application.Services
                 UpdateDate = task.UpdateDate
             };
         }
+
+
+        public async Task<UpdateTaskResultDto?> UpdateAsync(int id,UpdateTaskDto dto)
+        {
+            var task = await _taskRepository.GetAsync(id);
+
+            if (task == null)
+            {
+                return null;
+            }
+
+            if (string.IsNullOrWhiteSpace(dto.Title) &&
+                dto.Description == null &&
+                dto.IsCompleted == null &&
+                dto.Priority == null &&
+                dto.DueDate == null)
+            {
+                return null;
+            }
+
+            bool hasChanges = false;
+
+            if (!string.IsNullOrWhiteSpace(dto.Title) &&
+                dto.Title != task.Title)
+            {
+                task.Title = dto.Title;
+                hasChanges = true;
+            }
+
+            if (dto.Description != null &&
+                dto.Description != task.Description)
+            {
+                task.Description = dto.Description;
+                hasChanges = true;
+            }
+
+            if (dto.IsCompleted.HasValue &&
+                task.IsCompleted != dto.IsCompleted.Value)
+            {
+                if (dto.IsCompleted.Value)
+                {
+                    task.Complete();
+                }
+                else
+                {
+                    task.Uncomplete();
+                }
+
+                hasChanges = true;
+            }
+
+            if (dto.Priority.HasValue &&
+                task.Priority != dto.Priority.Value)
+            {
+                task.Priority = dto.Priority.Value;
+                hasChanges = true;
+            }
+
+            if (dto.DueDate.HasValue &&
+                task.DueDate != dto.DueDate.Value)
+            {
+                task.DueDate = dto.DueDate.Value;
+                hasChanges = true;
+            }
+
+            if (!hasChanges)
+            {
+                return null;
+            }
+
+            task.MarkUpdated();
+
+            await _taskRepository.UpdateAsync(task);
+
+            return new UpdateTaskResultDto
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description,
+                IsCompleted = task.IsCompleted,
+                Priority = task.Priority,
+                DueDate = task.DueDate,
+                CreateDate = task.CreateDate,
+                UpdateDate = task.UpdateDate
+            };
+        }
     }
 }
