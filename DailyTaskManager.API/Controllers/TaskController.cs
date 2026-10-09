@@ -60,5 +60,20 @@ namespace DailyTaskManager.API.Controllers
 
             return Ok(result);
         }
+
+
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _taskService.DeleteAsync(id);
+
+            if (!result)
+            {
+                return NotFound("تسک موردنظر پیدا نشد.");
+            }
+
+            return NoContent();
+        }
     }
 }

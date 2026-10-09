@@ -90,9 +90,18 @@ namespace DailyTaskManager.Infra.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public System.Threading.Tasks.Task DeleteAsync(DomainTask task)
+        public async System.Threading.Tasks.Task DeleteAsync(DomainTask task)
         {
-            throw new NotImplementedException();
+            var infraTask = await _context.Tasks.FirstOrDefaultAsync(t => t.Id == task.Id);
+
+            if (infraTask == null)
+            {
+                return;
+            }
+
+            _context.Tasks.Remove(infraTask);
+
+            await _context.SaveChangesAsync();
         }
     }
 }

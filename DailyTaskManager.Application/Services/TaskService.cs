@@ -37,6 +37,20 @@ namespace DailyTaskManager.Application.Services
             };
         }
 
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var task = await _taskRepository.GetAsync(id);
+
+            if (task == null)
+            {
+                return false;
+            }
+
+            await _taskRepository.DeleteAsync(task);
+
+            return true;
+        }
+
         public async Task<List<GetAllTaskResultDto>> GetAllAsync()
         {
             var tasks = await _taskRepository.GetAllAsync();

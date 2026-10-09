@@ -13,6 +13,6 @@ namespace DailyTaskManager.Application.Interfaces
         Task<List<GetAllTaskResultDto>> GetAllAsync();
         Task<GetTaskResultDto?> GetAsync(int id);
         Task<UpdateTaskResultDto?> UpdateAsync(int id, UpdateTaskDto dto);
-
+        Task<bool> DeleteAsync(int id);
     }
 }
