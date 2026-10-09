@@ -48,9 +48,26 @@ namespace DailyTaskManager.Infra.Data.Repositories
             )).ToList();
         }
 
-        public System.Threading.Tasks.Task<DomainTask?> GetByIdAsync(int id)
+
+        public async System.Threading.Tasks.Task<DomainTask?> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            var task = await _context.Tasks.FirstOrDefaultAsync(t => t.Id == id);
+
+            if (task == null)
+            {
+                return null;
+            }
+
+            return new DomainTask(
+                task.Id,
+                task.Title,
+                task.Description,
+                task.IsCompleted != 0,
+                (DailyTaskManager.Domain.Enums.TaskPriority)task.Priority,
+                task.DueDate,
+                task.CreateDate,
+                task.UpdateDate
+            );
         }
 
         public System.Threading.Tasks.Task UpdateAsync(DomainTask task)

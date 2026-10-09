@@ -49,5 +49,28 @@ namespace DailyTaskManager.Application.Services
                 Priority = task.Priority
             }).ToList();
         }
+
+
+        public async Task<GetTaskResultDto?> GetAsync(int id)
+        {
+            var task = await _taskRepository.GetAsync(id);
+
+            if (task == null)
+            {
+                return null;
+            }
+
+            return new GetTaskResultDto
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description,
+                IsCompleted = task.IsCompleted,
+                Priority = task.Priority,
+                DueDate = task.DueDate,
+                CreateDate = task.CreateDate,
+                UpdateDate = task.UpdateDate
+            };
+        }
     }
 }

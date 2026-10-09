@@ -13,7 +13,7 @@ namespace DailyTaskManager.Domain.Interfaces
     {
         System.Threading.Tasks.Task AddAsync(DomainTask task);
 
-        System.Threading.Tasks.Task<DomainTask?> GetByIdAsync(int id);
+        System.Threading.Tasks.Task<DomainTask?> GetAsync(int id);
 
         System.Threading.Tasks.Task<List<DomainTask>> GetAllAsync();
 

@@ -11,5 +11,6 @@ namespace DailyTaskManager.Application.Interfaces
     {
         Task<CreateTaskResultDto> CreateAsync(CreateTaskDto dto);
         Task<List<GetAllTaskResultDto>> GetAllAsync();
+        Task<GetTaskResultDto?> GetAsync(int id);
     }
 }

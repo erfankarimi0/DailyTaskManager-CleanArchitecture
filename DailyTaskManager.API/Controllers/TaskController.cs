@@ -32,5 +32,18 @@ namespace DailyTaskManager.API.Controllers
 
             return Ok(tasks);
         }
+
+
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var tasks = await _taskService.GetAsync(id);
+            if (tasks != null)
+            {
+                return Ok(tasks);
+            }
+            return NotFound();
+        }
     }
 }
